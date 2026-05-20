@@ -1,0 +1,60 @@
+
+.containerHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.tabs {
+    display: flex;
+  }
+  
+  .tab {
+    padding: 16px 24px;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .tab:hover {
+    color: #d1d5db;
+  }
+  
+  .tab.active {
+    color: #ffffff;
+  }
+  
+  .stats-grid {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .stat-card {
+    background-color: #1a1a1a;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  
+  .stat-label {
+    color: #9ca3af;
+    font-size: 14px;
+  }
+  
+  .stat-value {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .stat-value.approved {
+    color: #4ade80;
+  }
+  
+  .stat-value.rejected {
+    color: #f87171;
+  }

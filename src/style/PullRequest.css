@@ -1,0 +1,166 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .dashboard-container {
+    min-height: 100vh;
+    background-color: #0f0f0f;
+    color: #ffffff;
+    padding: 10px 16px 10px 16px;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  
+
+   
+  
+  /* PR Section */
+  .section-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  .pr-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .pr-card {
+    background-color: #1a1a1a;
+    border: 1px solid #374151;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: border 0.2s;
+  }
+  
+  .pr-card:hover {
+    border-color: #6b7280;
+  }
+  
+  .pr-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .pr-id {
+    font-family: monospace;
+    color: #9ca3af;
+    width: 60px;
+    font-size: 15px;
+  }
+  
+  .pr-title {
+    font-weight: 500;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  
+  .pr-title:hover {
+    color: #60a5fa;
+  }
+  
+  .pr-meta {
+    color: #6b7280;
+    font-size: 14px;
+  }
+  
+  .pr-status {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .status-icon {
+    transition: transform 0.2s;
+  }
+  
+  .status-icon.approved {
+    color: #4ade80;
+  }
+  
+  .status-icon.rejected {
+    color: #f87171;
+  }
+  
+  .arrow {
+    color: #6b7280;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .pr-card:hover .arrow {
+    color: #d1d5db;
+  }
+
+
+  .pagination {
+    width: 100%;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    gap: 12px;
+  
+    margin-top: 28px;
+  }
+  
+  .pagination-pages {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .pagination-btn,
+  .pagination-page {
+    height: 36px;
+    min-width: 36px;
+  
+    padding: 0 14px;
+  
+    border: 1px solid #27272a;
+    border-radius: 8px;
+  
+    background: #09090b;
+    color: #fafafa;
+  
+    font-size: 14px;
+    font-weight: 500;
+  
+    cursor: pointer;
+  
+    transition:
+      background 0.2s,
+      border 0.2s,
+      transform 0.15s;
+  }
+  
+  .pagination-btn:hover,
+  .pagination-page:hover {
+    background: #18181b;
+    border-color: #3f3f46;
+  }
+  
+  .pagination-page.active {
+    background: #fafafa;
+    color: #09090b;
+    border-color: #fafafa;
+  }
+  
+  .pagination-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  
+  .pagination-btn:active,
+  .pagination-page:active {
+    transform: scale(0.96);
+  }
