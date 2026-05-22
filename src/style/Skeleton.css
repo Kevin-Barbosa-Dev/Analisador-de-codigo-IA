@@ -1,0 +1,40 @@
+/* Skeleton loading */
+.skeleton .skeleton-line {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  border-radius: 6px;
+  animation: shimmer 1.05s infinite linear;
+}
+
+.skeleton .skeleton-line.id {
+  width: 52px;
+  height: 14px;
+}
+
+.skeleton .skeleton-line.title {
+  width: 220px;
+  height: 16px;
+  margin-bottom: 8px;
+}
+
+.skeleton .skeleton-line.meta {
+  width: 140px;
+  height: 12px;
+}
+
+.skeleton .skeleton-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  animation: shimmer 1.05s infinite linear;
+}

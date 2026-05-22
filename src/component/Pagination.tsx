@@ -22,10 +22,15 @@ export default function Pagination({paginaAtual,totalPaginas,mudarPagina}:Pagina
               return (
                 <button
                   key={page}
-                  onClick={() => mudarPagina(paginaAtual - 1)}
+                  onClick={() => {
+                    if (page !== paginaAtual) {
+                      mudarPagina(page);
+                    }
+                  }}
                   className={`pagination-page ${
                     paginaAtual === page ? 'active' : ''
                   }`}
+                  aria-current={paginaAtual === page ? 'page' : undefined}
                 >
                   {page}
                 </button>
