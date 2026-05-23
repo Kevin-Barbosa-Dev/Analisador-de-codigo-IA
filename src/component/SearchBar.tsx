@@ -2,8 +2,8 @@ import { Search } from 'lucide-react';
 import '../style/Search.css';
 
 interface SearchBarProps {
-  query: string;
-  setQuery: (q: string) => void;
+  query?: string;
+  setQuery?: (q: string) => void;
 }
 
 export default function SearchBar({ query, setQuery }: SearchBarProps) {

@@ -1,0 +1,41 @@
+.code-wrapper {
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #111827;
+  background: #050505;
+}
+
+.code-header {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+
+  background: #0b0f17;
+  border-bottom: 1px solid #111827;
+
+  color: #6b7280;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.code-block {
+  margin: 0;
+  padding: 28px;
+
+  overflow-x: auto;
+
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+  font-size: 14px;
+  line-height: 1.9;
+
+  color: #d4d4d4;
+
+  background: transparent;
+
+  tab-size: 2;
+}

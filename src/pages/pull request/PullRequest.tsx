@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   CheckCircle,
   XCircle,
@@ -9,19 +9,19 @@ import {
 
 import "../../style/PullRequest.css";
 import { mockPRs } from "../../utils/MockPRs";
-
-import HeaderTabsAndStats from "../../component/HeaderTabsAndStats";
-import SearchBar from "../../component/SearchBar";
 import Pagination from "../../component/Pagination";
 import Skeleton from "../../component/Skeleton";
 import { formatarTempo } from "../../utils/FormatarTempo";
 
 const ITEMS_PER_PAGE = 6;
 
-const PullRequest: React.FC = () => {
+interface PullRequestProps {
+  query: string;
+}
+
+const PullRequest: React.FC<PullRequestProps> = ({ query }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [expandedPR, setExpandedPR] = useState<string | null>(null);
-  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
 
   const normalizedQuery = query.trim().toLowerCase();
@@ -38,14 +38,28 @@ const PullRequest: React.FC = () => {
 
   const totalPages = Math.max(
     1,
-    Math.ceil(filteredPRs.length / ITEMS_PER_PAGE),
+    Math.ceil(filteredPRs.length / ITEMS_PER_PAGE)
   );
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
 
   const currentPRs = filteredPRs.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const toggleCard = (id: string) => {
-    setExpandedPR((prev) => (prev === id ? null : id));
+    setExpandedPR((prev) => {
+      const nextState = prev === id ? null : id;
+
+      if (nextState) {
+        setTimeout(() => {
+          cardRefs.current[id]?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+        }, 180);
+      }
+
+      return nextState;
+    });
   };
 
   const formatTime = formatarTempo;
@@ -59,15 +73,6 @@ const PullRequest: React.FC = () => {
   return (
     <div className="dashboard-container">
       <div className="dashboard-content">
-        <SearchBar
-          query={query}
-          setQuery={(q) => {
-            setQuery(q);
-            setCurrentPage(1);
-          }}
-        />
-        <HeaderTabsAndStats />
-
         <div className="pr-section">
           <h2 className="section-title">Pull Requests</h2>
 
@@ -88,6 +93,9 @@ const PullRequest: React.FC = () => {
                 return (
                   <div
                     key={prId}
+                    ref={(el) => {
+                      cardRefs.current[prId] = el;
+                    }}
                     className={`pr-card ${isExpanded ? "expanded" : ""}`}
                   >
                     <div
