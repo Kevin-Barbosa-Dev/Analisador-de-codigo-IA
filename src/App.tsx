@@ -1,17 +1,18 @@
 import "./App.css";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 import HeaderTabsAndStats from "./component/HeaderTabsAndStats";
 import SearchBar from "./component/SearchBar";
 import PullRequest from "./pages/pull request/PullRequest";
 import Tests from "./pages/teste/Teste";
-import { useState } from "react";
 
 export default function App() {
   const [query, setQuery] = useState("");
+
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
+    <HashRouter>
       <div className="dashboard-container">
         <div className="dashboard-content">
           <SearchBar query={query} setQuery={setQuery} />
@@ -23,6 +24,6 @@ export default function App() {
           </Routes>
         </div>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
