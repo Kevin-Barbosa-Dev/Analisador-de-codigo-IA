@@ -19,7 +19,7 @@ export default function App() {
           <HeaderTabsAndStats />
 
           <Routes>
-            <Route path="/" element={<PullRequest query={query} />} />
+            <Route path="*" element={<PullRequest query={query} />} />
             <Route path="/tests" element={<Tests query={query} />} />
           </Routes>
         </div>
