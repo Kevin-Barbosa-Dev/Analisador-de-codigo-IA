@@ -1,9 +1,10 @@
 import "../../style/Teste.css";
 
 import { FileCode2, CheckCircle2, Play, Terminal, Code2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { mockTests } from "../../utils/MockTest";
+import { getGeneratedPreset } from "../../utils/MockGeneratedTests";
 import ArquivosParaTeste from "./ArquivosParaTeste";
 import TerminalView from "./TerminalView";
 import CodeView from "./CodeView";
@@ -12,45 +13,15 @@ interface TestsProps {
   query: string;
 }
 
-const TERMINAL_LINES = [
-  "Analisando arquivo coupon.service.ts...",
-  "Identificando regras de negócio...",
-  "Detectado fluxo progressivo de desconto...",
-  "Mapeando edge cases...",
-  "Gerando cenários inválidos...",
-  "Criando testes de integração...",
-  "Validando cobertura mínima...",
-  "Testes gerados com sucesso.",
-];
-
-const TEST_CODE = `describe('CouponService.applyProgressive', () => {
-  it('aplica desconto progressivo até o teto fiscal', () => {
-    const result = service.apply({
-      subtotal: 1500,
-      coupon: 'PROG10'
-    });
-
-    expect(result.discount).toBe(150);
-    expect(result.taxBase).toBe(1350);
-  });
-
-  it('rejeita acúmulo com promoção sazonal', () => {
-    expect(() =>
-      service.apply({
-        subtotal: 100,
-        coupon: 'PROG10',
-        season: 'BLACK'
-      })
-    ).toThrow(BusinessRuleViolation);
-  });
-});`;
-
 export default function Tests({ query }: TestsProps) {
   const [mode, setMode] = useState<"idle" | "generating" | "done">("idle");
-  const [terminalLines, setTerminalLines] = useState<string[]>([]);
   const [showTerminal, setShowTerminal] = useState(false);
-
-  const selectedFile = mockTests[0];
+  const [selectedFilePath, setSelectedFilePath] = useState<string>(
+    mockTests[0].path,
+  );
+  const [generatedFiles, setGeneratedFiles] = useState<Record<string, boolean>>(
+    {},
+  );
 
   const normalizedQuery = query.trim().toLowerCase();
 
@@ -64,36 +35,58 @@ export default function Tests({ query }: TestsProps) {
     );
   });
 
+  const selectedFile = useMemo(() => {
+    return (
+      mockTests.find((file) => file.path === selectedFilePath) ?? mockTests[0]
+    );
+  }, [selectedFilePath]);
+
+  const preset = getGeneratedPreset(selectedFile.path);
+  const alreadyGenerated = !!generatedFiles[selectedFile.path];
+
+  const handleSelectFile = (path: string) => {
+    setSelectedFilePath(path);
+
+    const wasGenerated = !!generatedFiles[path];
+
+    if (wasGenerated) {
+      setMode("done");
+      setShowTerminal(true);
+    } else {
+      setMode("idle");
+      setShowTerminal(false);
+    }
+  };
+
   const handleGenerateTests = () => {
     setMode("generating");
     setShowTerminal(true);
-    setTerminalLines([]);
 
-    TERMINAL_LINES.forEach((line, index) => {
-      setTimeout(() => {
-        setTerminalLines((prev) => [...prev, line]);
+    setTimeout(
+      () => {
+        setGeneratedFiles((prev) => ({
+          ...prev,
+          [selectedFile.path]: true,
+        }));
 
-        if (index === TERMINAL_LINES.length - 1) {
-          setTimeout(() => setMode("done"), 700);
-        }
-      }, index * 900);
-    });
+        setMode("done");
+      },
+      preset.terminalLines.length * 120 + 1000,
+    );
   };
 
   return (
     <div className="tests-container">
       <div className="tests-content">
         <div className="tests-wrapper">
-          {/* LEFT SIDE */}
           <ArquivosParaTeste
             filteredTests={filteredTests}
             selectedFile={selectedFile}
+            onSelectFile={handleSelectFile}
           />
 
-          {/* RIGHT SIDE */}
           <div className="tests-preview">
             <div className="preview-card">
-              {/* HEADER */}
               <div className="preview-header">
                 <div className="preview-file">
                   <FileCode2 size={16} />
@@ -129,18 +122,18 @@ export default function Tests({ query }: TestsProps) {
                 )}
               </div>
 
-              {/* TERMINAL (COMPONENTE SEPARADO) */}
               {(mode === "generating" || showTerminal) && (
                 <TerminalView
-                  lines={terminalLines}
+                  lines={preset.terminalLines}
                   isGenerating={mode === "generating"}
+                  command={preset.command}
+                  animate={!alreadyGenerated && mode === "generating"}
                 />
               )}
 
-              {/* CODE */}
               {mode === "done" && !showTerminal && (
                 <>
-                  <CodeView code={TEST_CODE} />
+                  <CodeView code={preset.testCode} />
 
                   <div className="preview-footer">
                     <div className="suggested-tests">

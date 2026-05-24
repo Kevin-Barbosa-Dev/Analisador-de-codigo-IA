@@ -12,7 +12,7 @@ export default function CodeView({ code }: CodeViewProps) {
       </div>
 
       <pre className="code-block">
-        <code>{code}</code>
+        <span>{code}</span>
       </pre>
     </div>
   );

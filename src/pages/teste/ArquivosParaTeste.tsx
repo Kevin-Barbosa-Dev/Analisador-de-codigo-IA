@@ -10,11 +10,13 @@ interface TestFile {
 interface ArquivosParaTesteProps {
   filteredTests: TestFile[];
   selectedFile: TestFile;
+  onSelectFile: (path: string) => void;
 }
 
 export default function ArquivosParaTeste({
   filteredTests,
   selectedFile,
+  onSelectFile,
 }: ArquivosParaTesteProps) {
   return (
     <div className="tests-files">
@@ -24,6 +26,7 @@ export default function ArquivosParaTeste({
           className={`test-file-card ${
             file.id === selectedFile.id ? "active" : ""
           }`}
+          onClick={() => onSelectFile(file.path)}
         >
           <div className="test-file-header">
             <FileCode2 size={18} />
