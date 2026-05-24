@@ -11,7 +11,7 @@ import { useState } from "react";
 export default function App() {
   const [query, setQuery] = useState("");
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="dashboard-container">
         <div className="dashboard-content">
           <SearchBar query={query} setQuery={setQuery} />
